@@ -25,10 +25,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Download artifact from base ref ${{github.event.pull_request.head.ref}}
+      - name: Download artifact from base ref ${{github.event.pull_request.base.sha }}
         uses: actions/download-artifact@v2
         with:
-          name: artifact-${{github.event.pull_request.head.ref}}
+          name: artifact-${{github.event.pull_request.base.sha }}
       - run: |
           ls -la
           echo "${{github.run_id}}" > new_artifact
