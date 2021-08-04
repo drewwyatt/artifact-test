@@ -19,3 +19,22 @@ jobs:
         with:
           name: artifact-${{github.sha}}
           path: artifact
+  compare-artifacts:
+    name: Compare Artifacts
+    if: ${{ github.event_name == 'pull_request' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Download artifact from base ref ${{github.event.pull_request.base.sha }}
+        uses: actions/download-artifact@v2
+        with:
+          name: artifact-${{github.event.pull_request.base.sha }}
+      - run: |
+          ls -la
+          echo "${{github.run_id}}" > new_artifact
+          echo "new artifact:"
+          cat ./new_artifact
+          echo "downloaded artifact:"
+          cat ./artifact
+
+
