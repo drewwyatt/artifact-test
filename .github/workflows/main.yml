@@ -1,0 +1,21 @@
+name: Some Workflow
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+
+jobs:
+  persist-artifact:
+    name: Persist Artifact
+    if: ${{ github.event_name == 'push' }} # we are filtered ☝️ so this is a commit to master
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: echo "${{github.run_id}}" > artifact
+      - uses: actions/upload-artifact@v2
+        with:
+          name: artifact-${{github.sha}}
+          path: artifact
